@@ -1,40 +1,39 @@
-// Dumb Database
-const post1 = {id: 1, 
-    title: 'This is title', 
-    body: 'Here is the body'}
-
-const post2 = {id: 2, 
-    title: 'This is title2', 
-    body: 'Here is the body2'} 
-
-const post3 = {id: 3, 
-    title: 'This is title3', 
-    body: 'Here is the body3'}      
-
-
-const allPosts = [post1, post2, post3]    
-
 module.exports = {
-    posts: function (req, res) {
-        res.send(allPosts)
+    posts: async function (req, res) {
+        try {
+            const posts = await Post.find()
+            res.send(posts)
+        } catch(err) {
+            res.serverError(err.toString())
+        }
+        
+
+        /* Post.find().exec(function(err, posts) {
+            if (err) {
+                return res.serverError(err.toString())
+            }
+            res.send(posts)
+        }) */
     },
 
     create: function (req, res) {
-        const title = req.param('title')
-        const body = req.param('body')
-        console.log(title + " " + body)
 
-        sails.log.warn(title + " " + body)
-        
+        const title = req.body.title
+        const postBody = req.body.postBody
 
-        const newPost = {id: 4, 
-            title: title, 
-            body: body}
-        allPosts.push(newPost)
+        sails.log.debug('Title: ' + title)
+        sails.log.debug('Body: ' + postBody)
 
-        res.end()
+        Post.create({title: title, body: postBody}).exec(function(err) {
+            if (err) {
+                return res.serverError(err.toString())
+            }
+
+            console.log("Success created")
+            return res.send()
+        })
     },
-
+    
     findById: function (req, res) {
         const postId = req.param('postId')
 
@@ -46,5 +45,14 @@ module.exports = {
         } else {
             res.send ('Fail to find id:' + postId)
         }
+    },
+
+    delete: async function (req, res) {
+        const postId = req.param('postId')
+
+        await Post.destroy({id: postId})
+
+        res.send('Snap! ' + postId)
     }
+
 }
