@@ -23,13 +23,13 @@ module.exports.routes = {
 
   '/posts': 'PostsController.posts',
 
-  //'/findById/:postId': 'PostsController.findById',
-
   'GET /post/:postId': 'PostsController.findById',
 
-  'POST /post': 'PostsController.create',
+  'POST /post': 'post/create',
 
-  'DELETE /post/:postId': 'PostsController.delete'
+  'DELETE /post/:postId': 'post/delete',
+
+  'GET /home': 'post/home'
 
   // '/create': 'PostsController.create'
 

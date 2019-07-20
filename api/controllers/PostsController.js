@@ -16,7 +16,9 @@ module.exports = {
         }) */
     },
 
-    create: function (req, res) {
+
+
+    /* create: function (req, res) {
 
         const title = req.body.title
         const postBody = req.body.postBody
@@ -30,9 +32,12 @@ module.exports = {
             }
 
             console.log("Success created")
-            return res.send()
+
+            return res.redirect('/home')
+            
+            //return res.send()
         })
-    },
+    }, */
     
     findById: function (req, res) {
         const postId = req.param('postId')
@@ -47,12 +52,13 @@ module.exports = {
         }
     },
 
-    delete: async function (req, res) {
+    /* delete: async function (req, res) {
         const postId = req.param('postId')
 
         await Post.destroy({id: postId})
 
         res.send('Snap! ' + postId)
     }
+ */
 
 }
